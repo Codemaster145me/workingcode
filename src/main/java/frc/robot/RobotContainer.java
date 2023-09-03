@@ -31,7 +31,7 @@ public class RobotContainer {
   private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
   // Assumes a gamepad plugged into channel 0
-  private final Joystick m_controller = new Joystick(0);
+  public final static Joystick m_controller = new Joystick(0);
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -91,7 +91,9 @@ public class RobotContainer {
    * @return the command to run in teleop
    */
   public Command getArcadeDriveCommand() {
+    // the right side of your xbox joystick is what you are making the controler go
+    // back and forward the left side is making the robot go right and left
     return new ArcadeDrive(
-        m_drivetrain, () -> -m_controller.getRawAxis(1), () -> -m_controller.getRawAxis(4));
+        m_drivetrain, () -> -m_controller.getRawAxis(1), () -> -m_controller.getRawAxis(4)); 
   }
 }
