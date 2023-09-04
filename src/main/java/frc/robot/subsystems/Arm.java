@@ -52,6 +52,8 @@ public class Arm extends SubsystemBase{
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        boolean A_out = ArmOutButton.getAsBoolean();
+        boolean A_in = ArmInButton.getAsBoolean();
 
         if(A_out == true){
             Arm.set(-1);
