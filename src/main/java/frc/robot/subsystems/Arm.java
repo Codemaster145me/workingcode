@@ -1,27 +1,27 @@
 package frc.robot.subsystems;
 import frc.robot.RobotContainer;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-public class ArmSubsystem extends SubsystemBase{
+public class Arm extends SubsystemBase{
     /** Creates a new ExampleSubsystem. */
-    public ArmSubsystem() {
+    public Arm() {
     }
 
-    CANSparkMax Arm = new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private final Spark Arm = new Spark(2);
+    private final Spark HandUpDown = new Spark(3);
+    private final Spark HandRightLeft = new Spark(4);
 
 	public static final int A = 1;
-	public static final int B = 2;
+	//public static final int B = 2;
 	public static final int X = 3;
-	public static final int Y = 4;
+	//public static final int Y = 4;
 
-    static public JoystickButton ArmInButton = new JoystickButton(RobotContainer.m_controller, Y);
-    static public JoystickButton ArmOutButton = new JoystickButton(RobotContainer.m_controller, B);
+    static public JoystickButton ArmInButton = new JoystickButton(RobotContainer.m_controller, A);
+    static public JoystickButton ArmOutButton = new JoystickButton(RobotContainer.m_controller, X);
 
     /**
      * Example command factory method.
@@ -52,10 +52,6 @@ public class ArmSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        boolean A_out = ArmOutButton.getAsBoolean();
-        boolean A_in = ArmInButton.getAsBoolean();
-        SmartDashboard.putBoolean("Arm  Out", A_out);
-        SmartDashboard.putBoolean("Arm  In ", A_in);
 
         if(A_out == true){
             Arm.set(-1);
@@ -64,7 +60,8 @@ public class ArmSubsystem extends SubsystemBase{
         if(A_in == true){
             Arm.set(1);
         }
-        Arm.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        
+        Arm.set(0);
     }
 
     @Override
