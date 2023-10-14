@@ -1,27 +1,34 @@
 package frc.robot.subsystems;
 import frc.robot.RobotContainer;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.Servo;
 
 public class Arm extends SubsystemBase{
-    /** Creates a new ExampleSubsystem. */
-    public Arm() {
-    }
+    //private Servo servo;
+    private final Servo servo = new Servo(1); 
+    double volatage = 0;
 
-    private final Spark Arm = new Spark(2);
-    private final Spark HandUpDown = new Spark(3);
-    private final Spark HandRightLeft = new Spark(4);
+    /* 
+    private final Spark Arm = new Spark(3);
+    private final Spark HandUpDown = new Spark(4);
+    private final Spark HandRightLeft = new Spark(5);
+    */
 
 	public static final int A = 1;
 	//public static final int B = 2;
 	public static final int X = 3;
 	//public static final int Y = 4;
+    public int cnt = 0; 
 
     static public JoystickButton ArmInButton = new JoystickButton(RobotContainer.m_controller, A);
     static public JoystickButton ArmOutButton = new JoystickButton(RobotContainer.m_controller, X);
+    
+    /** Creates a new ExampleSubsystem. */
+    public Arm() {
+    }
 
     /**
      * Example command factory method.
@@ -48,6 +55,13 @@ public class Arm extends SubsystemBase{
         // Query some boolean state, such as a digital sensor.
         return false;
     }
+    public void VoltageAmountAdd(){
+        volatage += 1;
+    }
+
+    public void VoltageAmountSub(){
+        volatage -= 1;
+    }
 
     @Override
     public void periodic() {
@@ -55,15 +69,24 @@ public class Arm extends SubsystemBase{
         boolean A_out = ArmOutButton.getAsBoolean();
         boolean A_in = ArmInButton.getAsBoolean();
 
+        cnt += 1; 
+        if(this.cnt % 100 == 0 ){
+            System.out.println(Boolean.toString(A_out) + Boolean.toString(A_in)); 
+        }
+
         if(A_out == true){
-            Arm.set(-1);
+            System.out.println("AZ");
+            // servo.setAngle(volatage);
+            servo.set(1000);
+            VoltageAmountAdd();
         }
 
         if(A_in == true){
-            Arm.set(1);
+            System.out.println("A"); 
+            VoltageAmountSub();
+            //servo.setAngle(-volatage);
+            servo.set(1000);
         }
-        
-        Arm.set(0);
     }
 
     @Override
